@@ -22,8 +22,7 @@ var update = function(data) {
 
   // creating enemy circles
   var enemies = gameBoard.selectAll("circle")
-                         .data(randomEnemyPositions(10),
-                          function(d) {return d});
+                         .data(randomEnemyPositions(10));
 
 
 // update old elements
@@ -39,6 +38,9 @@ var update = function(data) {
          .style("fill", "blue")
          .attr("cx", function(d) {return d[0]})
          .attr("cy", function(d) {return d[1]});
+
+
+
 
 // exit
   enemies.exit()
