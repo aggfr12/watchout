@@ -41,12 +41,36 @@ var update = function(data) {
 update();
 setInterval(update, 1000);
 
+var dragPlayer = function() {
+  d3.select(this).attr("cy", function() {
+                    if (d3.event.y > 490) {
+                      return 490;
+                    } else if (d3.event.y < 10) {
+                      return 10;
+                    } else {
+                      return d3.event.y;
+                    }
+                  })
+                 .attr("cx", function() {
+                    if (d3.event.x > 780) {
+                      return 780;
+                    } else if (d3.event.x < 20) {
+                      return 20;
+                    } else {
+                      return d3.event.x;
+                    }
+                  });
+};
+
+var drag = d3.behavior.drag().on("drag", dragPlayer);
+
 var player = gameBoard.append("ellipse")
                       .style("fill", "orange")
                       .attr("ry", 10)
                       .attr("rx", 20)
                       .attr("cy", 250)
-                      .attr("cx", 400);
+                      .attr("cx", 400)
+                      .call(drag);
 
 
 
