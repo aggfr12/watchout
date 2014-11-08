@@ -1,4 +1,8 @@
 
+var highScore = 0;
+var currentScore = 0;
+var collisions = 0;
+
 // generate enemyPositions
 var randomEnemyPositions = function(n) {
   var result = [];
@@ -9,7 +13,6 @@ var randomEnemyPositions = function(n) {
   return result;
 };
 
-var enemyPositions = randomEnemyPositions(10);
 
 // create svg element attached to body to represent gameboard
 var gameBoard = d3.select("body")
@@ -19,27 +22,45 @@ var gameBoard = d3.select("body")
 
 var update = function(data) {
 
+  var newCoordinates = randomEnemyPositions(10);
   // creating enemy circles
   var enemies = gameBoard.selectAll("circle")
-                         .data(randomEnemyPositions(10));
+                         .data(newCoordinates);
 
-// update old elements, above enter so not run twice when first called
+  var tween = function() {
+    var enemyPositions = d3.select(this);
+
+    return function(t) {
+      collisionDetector(enemyPositions);
+      // update current score
+      currentScore += 1;
+      d3.select(".current span").text(currentScore);
+
+    };
+  };
+  // update old elements, above enter so not run twice when first called
   enemies.transition()
          .duration(1000)
+         .tween("custom", tween)
          .attr("cx", function(d) {return d[0]})
          .attr("cy", function(d) {return d[1]});
 
-// enter
+  var color = d3.scale.category10();
+  // enter
   enemies.enter()
          .append("circle")
          .attr("r", 10)
-         .style("fill", "blue")
+         .attr("class", "enemies")
+         .style("fill", function(d, i){return color(i % 10)})
          .attr("cx", function(d) {return d[0]})
          .attr("cy", function(d) {return d[1]});
+
+
 };
 
 update();
 setInterval(update, 1000);
+
 
 var dragPlayer = function() {
   d3.select(this).attr("cy", function() {
@@ -71,6 +92,25 @@ var player = gameBoard.append("ellipse")
                       .attr("cy", 250)
                       .attr("cx", 400)
                       .call(drag);
+
+var collisionDetector = function(enemies, i) {
+  var xDist = enemies.attr("cx") - d3.selectAll("ellipse").attr("cx");
+  var yDist = enemies.attr("cy") - d3.selectAll("ellipse").attr("cy");
+
+  var proximity = Math.sqrt(xDist * xDist + yDist * yDist);
+
+  if (proximity <= 20) {
+    collisions += 1;
+    d3.select(".collisions span").text(collisions);
+    if (currentScore > highScore) {
+      d3.select(".high span").text(currentScore);
+    }
+    currentScore = 0;
+    // d3.select(".current span").text(currentScore);
+  }
+
+};
+
 
 
 
