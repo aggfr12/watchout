@@ -17,12 +17,13 @@ var randomEnemyPositions = function(n) {
 // create svg element attached to body to represent gameboard
 var gameBoard = d3.select("body")
                   .append("svg")
-                  .attr("width", 800)
-                  .attr("height", 500);
+                  .classed("gameBoard", true)
+                  .attr("width", 880)
+                  .attr("height", 700);
 
 var update = function(data) {
 
-  var newCoordinates = randomEnemyPositions(10);
+  var newCoordinates = randomEnemyPositions(20);
   // creating enemy circles
   var enemies = gameBoard.selectAll("circle")
                          .data(newCoordinates);
@@ -83,10 +84,17 @@ var dragPlayer = function() {
                   });
 };
 
+// var pattern = d3.gameBoard.append("pattern")
+//                           .attr("id", "img1")
+//                           .attr
+
 var drag = d3.behavior.drag().on("drag", dragPlayer);
 
 var player = gameBoard.append("ellipse")
-                      .style("fill", "orange")
+                      // .style("fill", "orange")
+                      // .attr("xlink:href", "spaceShip.png")
+                      .attr("src", "spaceShip.png")
+                      .classed("player", true)
                       .attr("ry", 10)
                       .attr("rx", 20)
                       .attr("cy", 250)
