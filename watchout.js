@@ -33,8 +33,8 @@ var update = function(data) {
     return function(t) {
       collisionDetector(enemyPositions);
       // update current score
-      currentScore += 1;
-      d3.select(".current span").text(currentScore);
+      currentScore += 0.01;
+      d3.select(".current span").text(parseInt(currentScore));
 
     };
   };
@@ -97,13 +97,14 @@ var collisionDetector = function(enemies, i) {
   var xDist = enemies.attr("cx") - d3.selectAll("ellipse").attr("cx");
   var yDist = enemies.attr("cy") - d3.selectAll("ellipse").attr("cy");
 
-  var proximity = Math.sqrt(xDist * xDist + yDist * yDist);
+  var proximity = parseInt(Math.sqrt(xDist * xDist + yDist * yDist));
 
-  if (proximity <= 20) {
+  if (proximity <= 10) {
     collisions += 1;
     d3.select(".collisions span").text(collisions);
     if (currentScore > highScore) {
-      d3.select(".high span").text(currentScore);
+      highScore = currentScore;
+      d3.select(".high span").text(parseInt(highScore));
     }
     currentScore = 0;
     // d3.select(".current span").text(currentScore);
