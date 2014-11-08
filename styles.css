@@ -1,7 +1,29 @@
 /* your beautiful css styling goes here! */
+body {
+  margin-left: 10;
+  margin-right:10;
+}
 .gameBoard {
+  width: 100%;
+  height: 700;
   background-image: url(space.jpg);
-  background-size: cover;
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  /*-webkit-background-position: 0px 0px;
+  -webkit-background-repeat: repeat-x;*/
+  animation: animatedbackground 1s linear infinite;
+  -webkit-animation: animatedbackground 10s linear infinite;
+}
+
+@keyframes animatedbackground {
+  from { background-position: 0 0; }
+  to { background-position: 100% 0; }
+}
+
+@-webkit-keyframes animatedbackground {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
 }
 
 .nav {
@@ -15,5 +37,24 @@
 }
 
 .enemies {
-  background-image: url(asteroid.png);
+  animation-duration: 2s;
+  animation-name: spin;
+  -webkit-animation-name: spin;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  -webkit-transform-origin-x: initial;
+  -webkit-transform-origin-y: initial;
+}
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

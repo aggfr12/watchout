@@ -3,7 +3,7 @@ var highScore = 0;
 var currentScore = 0;
 var collisions = 0;
 
-var gameBoardX = 880;
+var gameBoardX = window.innerWidth - 20 || document.documentElement.clientWidth - 20 || document.getElementsByTagName('body')[0].clientWidth - 20;
 var gameBoardY = 700;
 
 // generate enemyPositions
@@ -120,7 +120,7 @@ var collisionDetector = function(enemies, i) {
 
   var proximity = parseInt(Math.sqrt(xDist * xDist + yDist * yDist));
 
-  if (proximity <= 20) {
+  if (proximity <= 30) {
     collisions += 1;
     d3.select(".collisions span").text(collisions);
     if (currentScore > highScore) {
