@@ -19,13 +19,11 @@ var gameBoard = d3.select("body")
 
 var update = function(data) {
 
-
   // creating enemy circles
   var enemies = gameBoard.selectAll("circle")
                          .data(randomEnemyPositions(10));
 
-
-// update old elements
+// update old elements, above enter so not run twice when first called
   enemies.transition()
          .duration(1000)
          .attr("cx", function(d) {return d[0]})
@@ -38,23 +36,17 @@ var update = function(data) {
          .style("fill", "blue")
          .attr("cx", function(d) {return d[0]})
          .attr("cy", function(d) {return d[1]});
-
-
-
-
-// exit
-  enemies.exit()
-         .remove();
-
-
-  // create callback to be run through setTimeout
-  // randomPositions will use transitions
-}
-
-
+};
 
 update();
 setInterval(update, 1000);
+
+var player = gameBoard.append("ellipse")
+                      .style("fill", "orange")
+                      .attr("ry", 10)
+                      .attr("rx", 20)
+                      .attr("cy", 250)
+                      .attr("cx", 400);
 
 
 
